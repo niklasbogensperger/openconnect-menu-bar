@@ -105,7 +105,7 @@ LONG_TITLE='VPN'
 ### Step 7
 ### Specify the network interface to be used in the network configuration
 # Leave this unchanged to avoid collisions with other VPN configurations you may have on your system
-# Modify if you know what you are doing
+# Modify if you know what you are doing (e.g. working with ifconfig)
 VPN_INTERFACE='utun99'
 
 
