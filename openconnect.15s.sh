@@ -18,6 +18,27 @@
 
 
 #########################################################
+# CHANGELOG #
+#########################################################
+
+### 2023-11-14
+### Version 1.0 (restarted versioning) by Niklas Bogensperger
+# - added proper adaptive (light/dark mode compatible) icon
+# - added configuration and status details in dropdown menu
+# - added uptime counter
+# - added SwiftBar metadata for some improved functionality (backwards compatible with xbar (formerly BitBar))
+# - added customization of the VPN name (short/long title)
+# - modularized the code a bit
+# - restructured the customization instructions
+# - tweaked the sleep timer in the connect/disconnect function
+# - removed 2FA code as it was unneeded for my use case
+# - miscellaneous smaller tweaks and fixes
+
+### 2023-11-08
+### Base version by Ventz Petkov (see above)
+
+
+#########################################################
 # XBAR / SWIFTBAR METADATA #
 #########################################################
 
