@@ -1,4 +1,5 @@
 # openconnect-menu-bar
+
 SwiftBar/xbar plugin to establish VPN connections via OpenConnect and monitor connection status
 
 
@@ -60,12 +61,13 @@ If there are errors such as "... is not a recognized network service", see the R
 
 1. [Download](https://github.com/niklasbogensperger/openconnect-menu-bar/blob/main/openconnect.15s.sh) the file
 2. Open it in a plain text editor or IDE of your choice
-3. Follow all steps in the "CONFIGURATION STEPS" section
+3. **Follow all steps in the "CONFIGURATION STEPS" section**
 4. Copy/Move it to the SwiftBar/xbar script folder that you or the app chose
 5. Make sure the file is executable: `chmod +x openconnect.15s.sh`
 
 
-### 5. Miscellaneous tips and tricks
+### 5. Miscellaneous tips/tricks and notes
 
 - Hold the <kbd>⌥ Option</kbd> key while clicking on the menu bar entry to bring up SwiftBar options that are hidden by default (only applies to SwiftBar)
 - Hold the <kbd>⌘ Command</kbd> key to drag the menu bar entry to the desired spot
+- When using SwiftBar, the script (and thus the menu entries) will update itself when the menu bar item is clicked in order to provide an accurate uptime. In case of connection loss, the script (and thus the icon) will update itself after around 15 seconds. Should you want to tweak this value, e.g. because you are using xbar where refresh-on-click is not an available feature or for performance reasons, you can rename the script according to [this guide](https://github.com/swiftbar/SwiftBar#plugin-naming).
