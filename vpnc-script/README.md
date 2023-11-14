@@ -51,7 +51,7 @@ If this problem also occurs on your machine, you can switch out the vpnc-script 
 **Please do double-check all commands as your install may differ!**
 
 1. Backup the existing `vpnc-script`:
-```shell
+```Shell
 sudo mv /usr/local/etc/vpnc/vpnc-script /usr/local/etc/vpnc/vpnc-script_orig
 ```
 2. Copy the tweaked `vpnc-script`:
