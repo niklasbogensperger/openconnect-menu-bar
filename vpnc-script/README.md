@@ -56,7 +56,7 @@ sudo mv /usr/local/etc/vpnc/vpnc-script /usr/local/etc/vpnc/vpnc-script_orig
 ```
 2. Copy the tweaked `vpnc-script`:
 ```shell
-sudo cp <path to download of tweaked script> /usr/local/etc/vpnc/vpnc-script
+sudo cp /path/to/download/of/tweaked/script /usr/local/etc/vpnc/vpnc-script
 ```
 3. Make sure it is executable:
 ```shell
