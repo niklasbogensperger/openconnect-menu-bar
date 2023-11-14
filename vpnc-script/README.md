@@ -23,10 +23,10 @@ This is not an unknown problem as can be seen in [this open GitLab issue](https:
 
 This is the code block in `vpnc-script_orig` responsible for the error:
 ```shell
-				# For newer MacOS versions it is needed to set DNS
-				ACTIVE_INTERFACE=`route -n get default | grep interface | awk '{print $2}'`
-				ACTIVE_NETWORK_SERVICE=`networksetup -listnetworkserviceorder | grep -B 1 "$ACTIVE_INTERFACE" | head -n 1 | awk '/\([0-9]+\)/{ print }'|cut -d " " -f2-`
-				networksetup -setdnsservers "$ACTIVE_NETWORK_SERVICE" $INTERNAL_IP4_DNS
+# For newer MacOS versions it is needed to set DNS
+ACTIVE_INTERFACE=`route -n get default | grep interface | awk '{print $2}'`
+ACTIVE_NETWORK_SERVICE=`networksetup -listnetworkserviceorder | grep -B 1 "$ACTIVE_INTERFACE" | head -n 1 | awk '/\([0-9]+\)/{ print }'|cut -d " " -f2-`
+networksetup -setdnsservers "$ACTIVE_NETWORK_SERVICE" $INTERNAL_IP4_DNS
 ```
 
 The problem is that `$ACTIVE_NETWORK_SERVICE` will be empty and thus result in a failed call to `networksetup` to update the DNS servers.
@@ -36,12 +36,12 @@ The workaround involves *hardcoding* the `Wi-Fi` device as the active network se
 
 This is the same code block in `vpnc-script` after the workaround:
 ```shell
-				# For newer MacOS versions it is needed to set DNS
-				ACTIVE_INTERFACE=`route -n get default | grep interface | awk '{print $2}'`
-				# this line is not working, as utunX (or even enX) interfaces cannot be a "network service"
-				# ACTIVE_NETWORK_SERVICE=`networksetup -listnetworkserviceorder | grep -B 1 "$ACTIVE_INTERFACE" | head -n 1 | awk '/\([0-9]+\)/{ print }'|cut -d " " -f2-`
-				ACTIVE_NETWORK_SERVICE="Wi-Fi"
-				networksetup -setdnsservers "$ACTIVE_NETWORK_SERVICE" $INTERNAL_IP4_DNS
+# For newer MacOS versions it is needed to set DNS
+ACTIVE_INTERFACE=`route -n get default | grep interface | awk '{print $2}'`
+# this line is not working, as utunX (or even enX) interfaces cannot be a "network service"
+# ACTIVE_NETWORK_SERVICE=`networksetup -listnetworkserviceorder | grep -B 1 "$ACTIVE_INTERFACE" | head -n 1 | awk '/\([0-9]+\)/{ print }'|cut -d " " -f2-`
+ACTIVE_NETWORK_SERVICE="Wi-Fi"
+networksetup -setdnsservers "$ACTIVE_NETWORK_SERVICE" $INTERNAL_IP4_DNS
 ```
 
 
