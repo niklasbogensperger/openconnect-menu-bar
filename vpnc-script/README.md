@@ -8,7 +8,7 @@ This copy of the vpnc-script provided with OpenConnect is only uploaded here for
 ## Credit
 
 - © 2005-2012 Maurice Massar, Jörg Mayer, Antonio Borneo et al.
-- © 2009-2022 David Woodhouse ([email](dwmw2@infradead.org)), Daniel Lenski ([email](dlenski@gmail.com)) et al.
+- © 2009-2022 David Woodhouse ([email](mailto:dwmw2@infradead.org)), Daniel Lenski ([email](mailto:dlenski@gmail.com)) et al.
 
 To this subfolder, the GPLv2 license applies; as specified in the vpnc-script itself.
 
