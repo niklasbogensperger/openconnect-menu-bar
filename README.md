@@ -49,7 +49,7 @@ brew install openconnect
 
 ### 3. Test out the OpenConnect installation manually
 
-Check to see if OpenConnect works out of the box with the provided [vpnc-script](https://www.infradead.org/openconnect/vpnc-script.html):
+Check to see if OpenConnect works out of the box with the provided [vpnc-script](https://www.infradead.org/openconnect/vpnc-script.html):<br />
 (Change the URL to your own VPN host and also change connection parameters if needed - see [here](https://www.infradead.org/openconnect/connecting.html))
 ```shell
 sudo openconnect https://vpn.example.tld

@@ -15,7 +15,7 @@ To this subfolder, the GPLv2 license applies; as specified in the vpnc-script it
 
 ## Purpose
 
-My installation of OpenConnect has had problems setting the DNS servers after establishing the VPN connection, outputting the error "... is not a recognized network service".
+My installation of OpenConnect has had problems setting the DNS servers after establishing the VPN connection, outputting the error "... is not a recognized network service".<br />
 This is not an unknown problem as can be seen in [this open GitLab issue](https://gitlab.com/openconnect/vpnc-scripts/-/issues/45).
 
 
@@ -31,7 +31,7 @@ networksetup -setdnsservers "$ACTIVE_NETWORK_SERVICE" $INTERNAL_IP4_DNS
 
 The problem is that `$ACTIVE_NETWORK_SERVICE` will be empty and thus result in a failed call to `networksetup` to update the DNS servers.
 
-The workaround involves *hardcoding* the `Wi-Fi` device as the active network service.
+The workaround involves *hardcoding* the `Wi-Fi` device as the active network service.<br />
 **While this is true 100% of the time on my machine (running macOS Ventura), this may not be the case for you and thus make the workaround not applicable to you.**
 
 This is the same code block in `vpnc-script` after the workaround:
@@ -47,8 +47,9 @@ networksetup -setdnsservers "$ACTIVE_NETWORK_SERVICE" $INTERNAL_IP4_DNS
 
 ## Setup
 
-If this problem also occurs on your machine, you can switch out the vpnc-script with my version with the workaround.
+If this problem also occurs on your machine, you can switch out the vpnc-script with my version with the workaround.<br />
 **Please do double-check all commands as your install may differ!**
+
 1. Backup the existing `vpnc-script`:
 ```shell
 sudo mv /usr/local/etc/vpnc/vpnc-script /usr/local/etc/vpnc/vpnc-script_orig
