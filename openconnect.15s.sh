@@ -21,6 +21,11 @@
 # CHANGELOG #
 #########################################################
 
+### 2024-01-17
+### Version 2.0 by Niklas Bogensperger
+# - re-added 2FA functionality via keychain-stored 2FA seed value and oath-toolkit
+# - added disclaimers to the sections involving storing secrets in the macOS keychain
+
 ### 2023-11-14
 ### Version 1.0 (restarted versioning) by Niklas Bogensperger
 # - added proper adaptive (light/dark mode compatible) icon
