@@ -29,7 +29,8 @@ This script provides a convenient way to control and monitor the OpenConnect VPN
 
 > [!CAUTION]
 > During the setup process (see below), you will be required to save your credentials (meaning password and 2FA seed secret, if applicable) in the macOS keychain.
-> PROCEED AT YOUR OWN RISK
+>
+> **PROCEED AT YOUR OWN RISK**
 
 
 ## Screenshots
