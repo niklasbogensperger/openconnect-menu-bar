@@ -23,6 +23,14 @@ This script provides a convenient way to control and monitor the OpenConnect VPN
 - [SwiftBar (recommended)](https://github.com/swiftbar/SwiftBar)
 - [xbar](https://xbarapp.com/)
 
+> [!IMPORTANT]
+> This script was only tested with an AnyConnect-based VPN server.
+> It assumes a VPN setup requiring basic login credentials and at most a TOTP/HOTP-based 2FA setup.
+
+> [!CAUTION]
+> During the setup process (see below), you will be required to save your credentials (meaning password and 2FA seed secret, if applicable) in the macOS keychain.
+> PROCEED AT YOUR OWN RISK
+
 
 ## Screenshots
 
@@ -39,11 +47,14 @@ This script provides a convenient way to control and monitor the OpenConnect VPN
 - [xbar](https://xbarapp.com/)
 
 
-### 2. Install OpenConnect by a method of your choice
+### 2. Install dependencies by a method of your choice
 
-E.g. with the [homebrew package manager](https://brew.sh):
+Needed are OpenConnect and optionally (depending on VPN server setup) oath-toolkit for 2FA functionality.
+
+Installing can be done e.g. with the [homebrew package manager](https://brew.sh):
 ```shell
 brew install openconnect
+brew install oath-toolkit
 ```
 
 
@@ -66,8 +77,13 @@ If there are errors such as "... is not a recognized network service", see the R
 5. Make sure the file is executable: `chmod +x openconnect.15s.sh`
 
 
-### 5. Miscellaneous tips/tricks and notes
+## Miscellaneous tips/tricks and notes
 
-- Hold the <kbd>⌥ Option</kbd> key while clicking on the menu bar entry to bring up SwiftBar options that are hidden by default (only applies to SwiftBar)
-- Hold the <kbd>⌘ Command</kbd> key to drag the menu bar entry to the desired spot
-- When using SwiftBar, the script (and thus the menu entries) will update itself when the menu bar item is clicked in order to provide an accurate uptime. In case of connection loss, the script (and thus the icon) will update itself after around 15 seconds. Should you want to tweak this value, e.g. because you are using xbar where refresh-on-click is not an available feature or for performance reasons, you can rename the script according to [this guide](https://github.com/swiftbar/SwiftBar#plugin-naming).
+> [!TIP]
+> Hold the <kbd>⌥ Option</kbd> key while clicking on the menu bar entry to bring up SwiftBar options that are hidden by default (only applies to SwiftBar).
+
+> [!TIP]
+> Hold the <kbd>⌘ Command</kbd> key to drag the menu bar entry to the desired spot.
+
+> [!NOTE]
+> When using SwiftBar, the script (and thus the menu entries) will update itself when the menu bar item is clicked in order to provide an accurate uptime. In case of connection loss, the script (and thus the icon) will update itself after around 15 seconds. Should you want to tweak this value, e.g. because you are using xbar where refresh-on-click is not an available feature or for performance reasons, you can rename the script according to [this guide](https://github.com/swiftbar/SwiftBar#plugin-naming).
