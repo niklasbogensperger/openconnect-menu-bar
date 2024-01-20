@@ -62,12 +62,18 @@
 #########################################################
 
 ### Step 1
-### Pointing to the openconnect installation
+### Pointing to the openconnect (and optional oath-toolkit) installation
 # a) Install the openconnect binary with a method of your choice, e.g. the homebrew package manager:
 #    `brew install openconnect`
 # b) Make sure the binary is located here, otherwise change the path:
 #    Another location with homebrew on M series Macs is e.g. /opt/homebrew/bin/openconnect
 VPN_EXECUTABLE=/usr/local/bin/openconnect
+##### Optional as required by the VPN server - see also step 8
+# c) Install the oath-toolkit binary with a method of your choice, e.g. the homebrew package manager:
+#    `brew install oath-toolkit`
+# d) Make sure the binary is located here, otherwise change the path:
+#    Another location with homebrew on M series Macs is e.g. /opt/homebrew/bin/oathtool
+OATHTOOL_EXECUTABLE=/usr/local/bin/oathtool
 
 ### Step 2
 ### Updating the sudo configuration so the script can run the relevant commands
@@ -104,6 +110,15 @@ VPN_USERNAME='user@vpn.example.tld'
 
 ### Step 5
 ### Securely storing the login password in the system keychain
+
+# **CAUTION** - While this is no different than saving a password for "autofill",
+#               this does mean that your password must be saved to the system keychain
+#               and will be retrieved by this script for use with openconnect.
+#               All of openconnect, SwiftBar, and the code you are currently reading
+#               and modifying are open source and should not be doing anything nefarious;
+#               yet still:
+# PROCEED AT YOUR OWN RISK
+
 # a) Open "Keychain Access" (in /Applications/Utilities/)
 # b) Select the "login" keychain in the sidebar (in the category "Default Keychains")
 # c) Select the "Passwords" category in the main window
@@ -113,6 +128,7 @@ VPN_USERNAME='user@vpn.example.tld'
 # g) For "Password" enter your password
 # h) Change the following value to either "find-internet-password" or "find-generic-password", depending on what is displayed in Keychain Access
 PASSWORD_CMD_KIND='find-internet-password'
+# i) When prompted by macOS that the script wants to access this keychain item, select "Always allow"
 
 ### Step 6
 ### Customize the name of the connection profile
@@ -128,6 +144,45 @@ LONG_TITLE='VPN'
 # Leave this unchanged to avoid collisions with other VPN configurations you may have on your system
 # Modify if you know what you are doing (e.g. working with ifconfig)
 VPN_INTERFACE='utun99'
+
+##### Optional as required by the VPN server
+### Step 8
+### Securely storing the 2FA seed in the system keychain
+
+# Proceed only if required, otherwise set this to false and skip this section
+TWO_FA_ENABLED=true
+
+if [[ "$TWO_FA_ENABLED" = "true" ]] ; then
+# **CAUTION** - While this is no different than saving a password for "autofill",
+#               this does mean that your 2FA seed value must be saved to the system keychain
+#               and will be retrieved by this script for use with openconnect.
+#               All of openconnect, SwiftBar, oath-toolkit, and the code you are currently
+#               reading and modifying are open source and should not be doing anything nefarious;
+#               yet still:
+# PROCEED AT YOUR OWN RISK
+
+# a) Open "Keychain Access" (in /Applications/Utilities/)
+# b) Select the "login" keychain in the sidebar (in the category "Default Keychains")
+# c) Select the "Passwords" category in the main window
+# d) Select File -> New Password Item... or click the corresponding icon in the toolbar
+# e) For "Keychain Item Name" use the value from "$VPN_HOST", followed immediately by "_2FA"
+# f) For "Account Name" use the value from "$VPN_USERNAME"
+# g) For "Password" enter your 2FA seed value
+# h) Change the following value to either "find-internet-password" or "find-generic-password", depending on what is displayed in Keychain Access
+    TWO_FA_CMD_KIND='find-internet-password'
+# i) The command below assumes a base32-encoded ("-b") time-based one-time password ("--totp")
+#    (see the oath-toolkit documentation for other options depending on your setup)
+    TWO_FA_OTP="$($OATHTOOL_EXECUTABLE -b --totp $(security $TWO_FA_CMD_KIND -wl ${VPN_HOST}_2FA))"
+# j) Specify the FORM:OPTION naming of the form field where the OTP should be entered
+#    (this can be found out by starting openconnect interactively in the shell with the "--dump-http-traffic -vvv" flag)
+    TWO_FA_FORM_FIELD='main:secondary_password'
+# k) When prompted by macOS that the script wants to access this keychain item, select "Always allow"
+
+### do not change this block 
+    VPN_2FA_STRING="--form-entry=${TWO_FA_FORM_FIELD}=${TWO_FA_OTP}"
+else
+    VPN_2FA_STRING=''
+fi
 
 
 #########################################################
@@ -166,7 +221,7 @@ get_uptime() {
 
 # Connects to the VPN server with openconnect with the details specified above
 connect_vpn() {
-    echo -e "$(security $PASSWORD_CMD_KIND -wl $VPN_HOST)\n" | sudo $VPN_EXECUTABLE --protocol=$VPN_PROTOCOL --useragent=$VPN_USER_AGENT -g $VPN_GROUP -u $VPN_USERNAME --passwd-on-stdin -i $VPN_INTERFACE $VPN_HOST &> /dev/null &
+    echo "$(security $PASSWORD_CMD_KIND -wl $VPN_HOST)" | sudo $VPN_EXECUTABLE --protocol=$VPN_PROTOCOL --useragent=$VPN_USER_AGENT -g $VPN_GROUP -u $VPN_USERNAME $VPN_2FA_STRING --passwd-on-stdin -i $VPN_INTERFACE $VPN_HOST &> /dev/null &
 
     # Wait for connection so menu item refreshes instantly
     until check_status; do sleep 0.3; done
