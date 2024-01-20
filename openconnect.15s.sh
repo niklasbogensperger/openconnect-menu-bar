@@ -48,7 +48,7 @@
 #########################################################
 
 # <xbar.title>OpenConnect Helper</xbar.title>
-# <xbar.version>v1.0</xbar.version>
+# <xbar.version>v2.0</xbar.version>
 # <xbar.author>Niklas Bogensperger</xbar.author>
 # <xbar.author.github>niklasbogensperger</xbar.author.github>
 # <xbar.desc>Establish VPN connections via OpenConnect and monitor connection status</xbar.desc>
