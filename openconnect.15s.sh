@@ -47,7 +47,7 @@
 # <xbar.author>Niklas Bogensperger</xbar.author>
 # <xbar.author.github>niklasbogensperger</xbar.author.github>
 # <xbar.desc>Establish VPN connections via OpenConnect and monitor connection status</xbar.desc>
-# <xbar.dependencies>openconnect</xbar.dependencies>
+# <xbar.dependencies>openconnect, oath-toolkit</xbar.dependencies>
 # <xbar.abouturl>https://github.com/niklasbogensperger/openconnect-menu-bar</xbar.abouturl>
 # <swiftbar.refreshOnOpen>true</swiftbar.refreshOnOpen>
 # <swiftbar.hideAbout>true</swiftbar.hideAbout>
