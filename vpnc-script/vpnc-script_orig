@@ -419,7 +419,7 @@ else # use route command
 		# - remove lines containing IPv6 addresses (':')
 		# - remove lines for link-local routes (https://superuser.com/a/1067742)
 		# - remove lines containing $TUNDEV (we don't want loopback)
-		netstat -r -n | awk '/:/ { next; } /link#/ { next; } /[[:space:]]'"$TUNDEV"'([[:space:]]|$)/ { next; } /^(default|0\.0\.0\.0([[:space:]]|\/0))/ { print $2; exit; }'
+		netstat -r -n | awk '/:/ { next; } /link#/ { next; } /^(default|0\.0\.0\.0([[:space:]]|\/0))/ { print $2; exit; } /[[:space:]]'"$TUNDEV"'([[:space:]]|$)/ { next; }'
 	}
 
 	set_vpngateway_route() {
@@ -484,7 +484,7 @@ else # use route command
 
 	reset_default_route() {
 		if [ -s "$DEFAULT_ROUTE_FILE" ]; then
-			route $route_syntax_del default $route_syntax_gw "`get_default_gw`" $route_syntax_interface
+			route $route_syntax_del default $route_syntax_gw `get_default_gw` $route_syntax_interface
 			route add default $route_syntax_gw `cat "$DEFAULT_ROUTE_FILE"`
 			rm -f -- "$DEFAULT_ROUTE_FILE"
 		fi

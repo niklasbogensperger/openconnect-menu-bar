@@ -96,11 +96,11 @@ HOOKS_DIR=/etc/vpnc
 # is a shell, and the grandparent's PID is the relevant one.
 # OpenConnect v9.0+ provides VPNPID, so we don't need to determine it.
 if [ -z "$VPNPID" ]; then
-	VPNPID=$PPID
-	PCMD=`ps -c -o command= -p $PPID`
-	case "$PCMD" in
-		*sh) VPNPID=`ps -o ppid= -p $PPID` ;;
-	esac
+    VPNPID=$PPID
+    PCMD=`ps -c -o command= -p $PPID`
+    case "$PCMD" in
+        *sh) VPNPID=`ps -o ppid= -p $PPID` ;;
+    esac
 fi
 
 DEFAULT_ROUTE_FILE=/var/run/vpnc/defaultroute.${VPNPID}
@@ -273,18 +273,18 @@ do_ifconfig() {
 if [ -n "$IPROUTE" ]; then
 	fix_ip_get_output () {
 		sed -e 's/ /\n/g' | \
-			sed -ne "1 s|\$|${1}|p;/via/{N;p};/dev/{N;p};/src/{N;p};/mtu/{N;p};/metric/{N;p};/onlink/{p}"
+		    sed -ne "1 s|\$|${1}|p;/via/{N;p};/dev/{N;p};/src/{N;p};/mtu/{N;p};/metric/{N;p};/onlink/{p}"
 	}
 
-		# returns all routes to a destination *except* those through $TUNDEV,
-		# sorted by increasing metric (with absent metric as last)
-		list_non_loopback_routes () {
-			echo "$1" | grep -q : && FAMILY=-6 ROOT=::/0 || FAMILY=-4 ROOT=0/0
+        # returns all routes to a destination *except* those through $TUNDEV,
+        # sorted by increasing metric (with absent metric as last)
+        list_non_loopback_routes () {
+            echo "$1" | grep -q : && FAMILY=-6 ROOT=::/0 || FAMILY=-4 ROOT=0/0
 		# put metric in front, sort by metric, then chop off first two fields (metric and destination)
 		$IPROUTE $FAMILY route show to "$1" root "$ROOT" |
-			awk '/dev '"$TUNDEV"'/ { next; } { printf "%s %s\n", (match($0, /metric ([^ ]+)/) ? substr($0, RSTART+7, RLENGTH-7) : 4294967295), $0; }' |
-			sort -n | cut -d' ' -f3-
-		}
+		    awk '/dev '"$TUNDEV"'/ { next; } { printf "%s %s\n", (match($0, /metric ([^ ]+)/) ? substr($0, RSTART+7, RLENGTH-7) : 4294967295), $0; }' |
+		    sort -n | cut -d' ' -f3-
+        }
 
 	set_vpngateway_route() {
 		# We'll attempt to add a host route to the gateway through every route that matches
@@ -419,7 +419,7 @@ else # use route command
 		# - remove lines containing IPv6 addresses (':')
 		# - remove lines for link-local routes (https://superuser.com/a/1067742)
 		# - remove lines containing $TUNDEV (we don't want loopback)
-		netstat -r -n | awk '/:/ { next; } /link#/ { next; } /[[:space:]]'"$TUNDEV"'([[:space:]]|$)/ { next; } /^(default|0\.0\.0\.0([[:space:]]|\/0))/ { print $2; exit; }'
+		netstat -r -n | awk '/:/ { next; } /link#/ { next; } /^(default|0\.0\.0\.0([[:space:]]|\/0))/ { print $2; exit; } /[[:space:]]'"$TUNDEV"'([[:space:]]|$)/ { next; }'
 	}
 
 	set_vpngateway_route() {
@@ -484,7 +484,7 @@ else # use route command
 
 	reset_default_route() {
 		if [ -s "$DEFAULT_ROUTE_FILE" ]; then
-			route $route_syntax_del default $route_syntax_gw "`get_default_gw`" $route_syntax_interface
+			route $route_syntax_del default $route_syntax_gw `get_default_gw` $route_syntax_interface
 			route add default $route_syntax_gw `cat "$DEFAULT_ROUTE_FILE"`
 			rm -f -- "$DEFAULT_ROUTE_FILE"
 		fi
@@ -506,7 +506,7 @@ else # use route command
 		# Intended behavior, starting with `netstat -r -n` IPv6 output:
 		# - keep lines starting with 'default' or '::'
 		# - append %$interface to link-local routes (fe80::/10)
-			# - remove lines for loopback interface (lo)
+	        # - remove lines for loopback interface (lo)
 		# - remove lines containing $TUNDEV (we don't want loopback)
 		# FIXME: is there a better way to exclude loopback routes than filtering interface /^lo/?
 		netstat -r -n $netstat_syntax_ipv6 | awk '/^(default|::\/0)/ { if ($NF!~/^lo/ && $NF!~/'"$TUNDEV"'([[:space:]]|$)/) { print ($2~/^fe[89ab]/ ? $2"%"$NF : $2); } }'
