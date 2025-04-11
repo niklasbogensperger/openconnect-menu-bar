@@ -129,6 +129,7 @@ VPN_USERNAME='user@vpn.example.tld'
 # c) Select the "Passwords" category in the main window
 # d) Select File -> New Password Item... or click the corresponding icon in the toolbar
 # e) For "Keychain Item Name" use the value from "$VPN_HOST"
+#    (Note: macOS may delete the leading "https://" from the name when first adding the item; simply edit the name for a second time to make it stick)
 # f) For "Account Name" use the value from "$VPN_USERNAME"
 # g) For "Password" enter your password
 # h) Change the following value to either "find-internet-password" or "find-generic-password", depending on what is displayed in Keychain Access
@@ -171,6 +172,7 @@ if [[ "$TWO_FA_ENABLED" = "true" ]] ; then
 # c) Select the "Passwords" category in the main window
 # d) Select File -> New Password Item... or click the corresponding icon in the toolbar
 # e) For "Keychain Item Name" use the value from "$VPN_HOST", followed immediately by "_2FA"
+#    (Note: macOS may delete the leading "https://" from the name when first adding the item; simply edit the name for a second time to make it stick)
 # f) For "Account Name" use the value from "$VPN_USERNAME"
 # g) For "Password" enter your 2FA seed value
 # h) Change the following value to either "find-internet-password" or "find-generic-password", depending on what is displayed in Keychain Access
