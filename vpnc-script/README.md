@@ -32,7 +32,7 @@ networksetup -setdnsservers "$ACTIVE_NETWORK_SERVICE" $INTERNAL_IP4_DNS
 The problem is that `$ACTIVE_NETWORK_SERVICE` will be empty and thus result in a failed call to `networksetup` to update the DNS servers.
 
 The workaround involves *hardcoding* the `Wi-Fi` device as the active network service.<br />
-**While this is true 100% of the time on my machine (running macOS Ventura), this may not be the case for you and thus make the workaround not applicable to you.**
+**While this is true 100% of the time on my MacBook (running macOS Sequoia), this may not be the case for you and thus make the workaround not applicable to you.**
 
 This is the same code block in `vpnc-script` after the workaround:
 ```shell
@@ -48,18 +48,19 @@ networksetup -setdnsservers "$ACTIVE_NETWORK_SERVICE" $INTERNAL_IP4_DNS
 ## Setup
 
 If this problem also occurs on your machine, you can switch out the vpnc-script with my version with the workaround.<br />
-**Please do double-check all commands as your install may differ!**
+**Please do double-check all commands as your install may differ (e.g. homebrew vs. non-homebrew or Intel vs. Apple Silicon)!**<br />
+**These commands apply to a homebrew install on an Apple Silicon machine.**
 
 1. Backup the existing `vpnc-script`:
 ```shell
-sudo mv /usr/local/etc/vpnc/vpnc-script /usr/local/etc/vpnc/vpnc-script_orig
+mv /opt/homebrew/etc/vpnc/vpnc-script /opt/homebrew/etc/vpnc/vpnc-script_orig
 ```
 2. Copy the tweaked `vpnc-script`:
 ```shell
-sudo cp /path/to/download/of/tweaked/script /usr/local/etc/vpnc/vpnc-script
+cp /path/to/download/of/tweaked/script /opt/homebrew/etc/vpnc/vpnc-script
 ```
 3. Make sure it is executable:
 ```shell
-sudo chmod +x /usr/local/etc/vpnc/vpnc-script
+chmod +x /opt/homebrew/etc/vpnc/vpnc-script
 ```
 4. Check if the tweak is still applied or even needed when updating OpenConnect
